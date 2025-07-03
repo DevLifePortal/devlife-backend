@@ -9,7 +9,11 @@ public class ProfileInteraction : IMongoEntity
     [BsonId]
     [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
-    public Guid SourceProfileId { get; set; } 
+    
+    [BsonRepresentation(BsonType.String)]
+    public Guid SourceProfileId { get; set; }
+    
+    [BsonRepresentation(BsonType.String)]
     public Guid TargetProfileId { get; set; }  
     public DateTimeOffset Timestamp { get; set; }
 

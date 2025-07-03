@@ -7,4 +7,5 @@ public record RegisterProfileCommand(
     Gender Gender,
     GenderPreference Preference,
     string Bio,
-    List<string> TechStack);
+    List<string> TechStack,
+    PersonalityType personalityType);

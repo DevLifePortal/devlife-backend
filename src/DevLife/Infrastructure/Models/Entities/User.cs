@@ -17,7 +17,8 @@ public class User
 
     public User() { }
 
-    public static User Create(string userName, string fullName, DateOnly birthDay, ExperienceLevel experienceLevel, TechStack stackStrings)
+    public static User Create(string userName, string fullName, DateOnly birthDay, ExperienceLevel experienceLevel,
+        TechStack stackStrings)
     {
         return new User
         {

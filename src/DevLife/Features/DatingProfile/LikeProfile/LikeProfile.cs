@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using DevLife.Infrastructure.Database.Mongo.Repository;
 using DevLife.Infrastructure.Models.Entities;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver.Linq;
 
 namespace DevLife.Features.DatingProfile.LikeProfile;
 
@@ -28,9 +28,12 @@ public class LikeProfile
                 return Results.Unauthorized();
             
             var user = await userProfileRepository
-                .Where(u => u.Username == userName)
+                .Where(u => u.Id == targetId)
                 .FirstOrDefaultAsync(cancellationToken);
 
+            if (user is null)
+                return Results.NotFound();
+            
             var interaction = ProfileInteraction.Create(user.Id, targetId);
             
             await profileInteractionRepository.AddAsync(interaction, cancellationToken);

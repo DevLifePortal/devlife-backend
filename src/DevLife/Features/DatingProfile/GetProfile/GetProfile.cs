@@ -18,7 +18,7 @@ public class GetProfile
                 Guid Id,
                 IMongoRepository<UserProfile> repository)
         {
-            var profile = repository
+            var profile = await repository
                 .AsQueryable()
                 .FirstOrDefaultAsync(p => p.Id == Id);
 

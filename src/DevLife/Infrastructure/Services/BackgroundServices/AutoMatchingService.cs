@@ -13,9 +13,9 @@ public class AutoMatchingService : BackgroundService
         _serviceProvider = serviceProvider;
     }
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        while (!cancellationToken.IsCancellationRequested)
         {
             using var scope = _serviceProvider.CreateScope();
 
@@ -23,8 +23,8 @@ public class AutoMatchingService : BackgroundService
                 .AsQueryable()
                 .ToList();
 
-            var matchRepo = scope.ServiceProvider.GetRequiredService<IMongoRepository<Match>>();
-            var existingMatches = matchRepo.AsQueryable().ToList();
+            var matchRepository = scope.ServiceProvider.GetRequiredService<IMongoRepository<Match>>();
+            var existingMatches = matchRepository.AsQueryable().ToList();
 
             var matchedPairs = interactions
                 .Select(i => new { From = i.SourceProfileId, To = i.TargetProfileId })
@@ -44,10 +44,10 @@ public class AutoMatchingService : BackgroundService
                     Profile2Id = pair.To
                 };
 
-                await matchRepo.AddAsync(match, stoppingToken);
+                await matchRepository.AddAsync(match, cancellationToken);
             }
 
-            await Task.Delay(_interval, stoppingToken);
+            await Task.Delay(_interval, cancellationToken);
         }
     }
 }

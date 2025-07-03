@@ -26,7 +26,7 @@ public class GetMatchCandidates
         
             var currentUser = repository.AsQueryable().FirstOrDefault(p => p.Username == userName);
             if (currentUser is null)
-                return Results.NotFound("Профиль не найден");
+                return Results.NotFound("Profile not found");
             
             var candidates = repository.AsQueryable()
                 .Where(p =>

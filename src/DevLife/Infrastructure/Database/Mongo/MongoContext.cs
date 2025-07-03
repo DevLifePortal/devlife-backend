@@ -35,5 +35,8 @@ public class MongoContext
         
         if (!existingCollections.Contains("ProfileInteractions"))
             await db.CreateCollectionAsync("ProfileInteractions");
+        
+        if (!existingCollections.Contains("Matchs"))
+            await db.CreateCollectionAsync("Matchs");
     }
 }

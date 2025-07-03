@@ -25,6 +25,7 @@ public class Judge0Service
             "python" => 71,
             "javascript" => 63,
             "csharp" => 51,
+            "java" => 62,
             _ => throw new ArgumentOutOfRangeException(nameof(language), $"Unsupported language: {language}")
         };
 

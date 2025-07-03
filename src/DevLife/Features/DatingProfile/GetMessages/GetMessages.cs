@@ -1,5 +1,6 @@
 using DevLife.Infrastructure.Database.Mongo.Repository;
 using DevLife.Infrastructure.Models.Entities;
+using MongoDB.Driver.Linq;
 
 namespace DevLife.Features.DatingProfile.GetMessages;
 
@@ -15,12 +16,13 @@ public class GetMessages
         }
         private static async Task<IResult> Handler(
             Guid matchId,
-            IMongoRepository<Message> messageRepo)
+            IMongoRepository<Message> messageRepository,
+            CancellationToken cancellationToken)
         {
-            var messages = messageRepo.AsQueryable()
+            var messages = await messageRepository
                 .Where(m => m.MatchId == matchId)
                 .OrderBy(m => m.Timestamp)
-                .ToList();
+                .ToListAsync(cancellationToken);
             return Results.Ok(messages);
         }
     }

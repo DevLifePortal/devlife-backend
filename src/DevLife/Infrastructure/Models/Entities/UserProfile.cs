@@ -20,7 +20,7 @@ public class UserProfile : IMongoEntity
     public PersonalityType? PersonalityType { get; set; }
 
     public static UserProfile Create(string userName, Gender gender, GenderPreference preference, string bio,
-        List<string> techStack)
+        List<string> techStack, PersonalityType? personalityType)
     {
         return new UserProfile
         {
@@ -30,8 +30,8 @@ public class UserProfile : IMongoEntity
             Preference = preference,
             Bio = bio,
             TechStack = techStack,
-            CreatedAt =  DateTimeOffset.UtcNow
-            
+            CreatedAt =  DateTimeOffset.UtcNow,
+            PersonalityType = personalityType
         };
     }
 }

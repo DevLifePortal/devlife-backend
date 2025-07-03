@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using DevLife.Infrastructure.Database.Mongo.Repository;
 using DevLife.Infrastructure.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevLife.Features.DatingProfile.Setup;
 
@@ -31,7 +32,8 @@ public class ProfileRegister
                 command.Gender,
                 command.Preference,
                 command.Bio,
-                command.TechStack);
+                command.TechStack,
+                command.personalityType);
 
             await repository.AddAsync(profile, cancellationToken);
 
