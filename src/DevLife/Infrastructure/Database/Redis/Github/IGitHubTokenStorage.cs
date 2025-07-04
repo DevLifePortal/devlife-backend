@@ -1,4 +1,4 @@
-namespace DevLife.Infrastructure.Database.Redis;
+namespace DevLife.Infrastructure.Database.Redis.Github;
 
 public interface IGitHubTokenStorage
 {

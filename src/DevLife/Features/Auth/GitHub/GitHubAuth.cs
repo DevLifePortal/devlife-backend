@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using DevLife.Infrastructure.Database.Postgres.Repository;
 using DevLife.Infrastructure.Database.Redis;
+using DevLife.Infrastructure.Database.Redis.Github;
 using DevLife.Infrastructure.Models.Entities;
 using DevLife.Infrastructure.Services.GitHub;
 using Microsoft.EntityFrameworkCore;

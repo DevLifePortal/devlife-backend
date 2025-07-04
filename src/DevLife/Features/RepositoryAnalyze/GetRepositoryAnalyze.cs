@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using DevLife.Infrastructure.Database.Redis;
+using DevLife.Infrastructure.Database.Redis.Github;
 using DevLife.Infrastructure.Services.OpenAI;
 
 namespace DevLife.Features.Auth.GitHub;

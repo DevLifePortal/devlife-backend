@@ -40,7 +40,7 @@ public class ChatGptService
         chat.AppendUserInput(userInput);
 
         var response = await chat.GetResponseFromChatbotAsync();
-        return response;
+        return response ?? "NoResponse";
     }
     
     public async Task<string> GetIncorrectSnippet(TechStack languages, ExperienceLevel level)

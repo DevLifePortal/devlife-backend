@@ -1,13 +1,13 @@
 using StackExchange.Redis;
 
-namespace DevLife.Infrastructure.Database.Redis;
+namespace DevLife.Infrastructure.Database.Redis.Github;
 
-public class RedisGitHubTokenStorage : IGitHubTokenStorage
+public class GitHubTokenStorage : IGitHubTokenStorage
 {
     private readonly IDatabase _db;
     private readonly TimeSpan _ttl = TimeSpan.FromDays(7);
 
-    public RedisGitHubTokenStorage(IConnectionMultiplexer redis)
+    public GitHubTokenStorage(IConnectionMultiplexer redis)
     {
         _db = redis.GetDatabase();
     }

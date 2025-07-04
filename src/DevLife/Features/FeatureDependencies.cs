@@ -1,5 +1,6 @@
 using DevLife.Features.Auth.Authorization;
 using DevLife.Features.Auth.GitHub;
+using DevLife.Features.Auth.RefreshToken;
 using DevLife.Features.Auth.Registration;
 using DevLife.Features.BugChaseGame;
 using DevLife.Features.Casino;
@@ -32,12 +33,14 @@ public static class FeatureDependencies
 
     public static void AddFeaturesEndpoints(this IEndpointRouteBuilder app)
     {
-            CreateSession.Endpoint.Map(app);
-            ChooseSnippet.Endpoint.Map(app);
             
             Registration.Endpoint.Map(app);
+            RefreshToken.Endpoint.Map(app);
             Authorization.Endpoint.Map(app);
             GitHubAuth.Endpoints.Map(app);
+            
+            CreateSession.Endpoint.Map(app);
+            ChooseSnippet.Endpoint.Map(app);
             
             DailyChallenge.Endpoint.Map(app);
             LeaderBoard.Endpoint.Map(app);
@@ -59,6 +62,7 @@ public static class FeatureDependencies
             AddToFavorite.Endpoint.Map(app);
             GetFavorites.Endpoint.Map(app);
             DeleteFavorite.Endpoint.Map(app);
+
         
         app.MapHub<GameHub>("/gamehub");
     }

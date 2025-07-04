@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using DevLife.Infrastructure.Database.Redis;
+using DevLife.Infrastructure.Database.Redis.Github;
 
 namespace DevLife.Features.RepositoryAnalyze;
 

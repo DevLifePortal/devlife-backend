@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using DevLife.Infrastructure.Database.Postgres.Repository;
+using DevLife.Infrastructure.Database.Redis.RefreshToken;
 using DevLife.Infrastructure.Models.Entities;
 using DevLife.Infrastructure.Services.Jwt;
 using Microsoft.EntityFrameworkCore;
@@ -21,22 +22,27 @@ public class Authorization
             AuthenticationRequest request,
             IJwtService jwtService,
             IPostgresRepository<User> userRepository,
+            IRefreshTokenStorage refreshTokenStorage,
             CancellationToken cancellationToken)
         {
-            
-            var isUserExist = await userRepository
+            var user = await userRepository
                 .Where(u => u.Username == request.Username)
-                .AnyAsync(cancellationToken);
+                .FirstOrDefaultAsync(cancellationToken);
 
-            if (!isUserExist)
+            if (user is null)
                 return Results.NotFound("User not found");
             
-            var token = jwtService.GenerateToken(request.Username);
+            var accessToken = jwtService.GenerateToken(request.Username);
+            var refreshToken = Guid.NewGuid().ToString();
             
-            return Results.Ok(new
-            {
-                token = token,
-            });
+            await refreshTokenStorage.SetAsync(
+                user.Username, refreshToken, 
+                TimeSpan.FromDays(7), cancellationToken);
+            
+            return Results.Ok(new AuthorizationResponse(
+                    accessToken, refreshToken
+                ));
         }
     }
+    private record AuthorizationResponse(string AccessToken, string RefreshToken);
 }

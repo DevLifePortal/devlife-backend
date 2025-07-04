@@ -4,6 +4,8 @@ using DevLife.Infrastructure.Database.Mongo.Repository;
 using DevLife.Infrastructure.Database.Postgres;
 using DevLife.Infrastructure.Database.Postgres.Repository;
 using DevLife.Infrastructure.Database.Redis;
+using DevLife.Infrastructure.Database.Redis.Github;
+using DevLife.Infrastructure.Database.Redis.RefreshToken;
 using DevLife.Infrastructure.Services.BackgroundServices;
 using DevLife.Infrastructure.Services.CodeWars;
 using DevLife.Infrastructure.Services.GitHub;
@@ -27,11 +29,13 @@ public static class InfrastructureDependencies
                 o => o
                     .UseNpgsql(Environment.GetEnvironmentVariable("POSTGRES_DATABASE_URL"))
                     .UseSnakeCaseNamingConvention());
+        
         services.Configure<MongoConfiguration>(options =>
         {
             options.ConnectionString = Environment.GetEnvironmentVariable("MONGO_DATABASE_URL");
             options.DatabaseName = Environment.GetEnvironmentVariable("MONGO_DATABASE_NAME");
         });
+        
         services.AddSingleton<MongoContext>();
         
         services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
@@ -135,12 +139,13 @@ public static class InfrastructureDependencies
 
         services.AddSingleton<DeveloperCardGenerator>();
         
-        services.AddSingleton<IGitHubTokenStorage, RedisGitHubTokenStorage>();
-        services.AddHttpClient();
 
         services.AddSingleton<IConnectionMultiplexer>(
             ConnectionMultiplexer.Connect(Environment.GetEnvironmentVariable("REDIS_URL")));
 
+        services.AddScoped<IGitHubTokenStorage, GitHubTokenStorage>();
+        services.AddScoped<IRefreshTokenStorage, RefreshTokenStorage>();
+        
         services.AddHostedService<AutoMatchingService>();
         
         services.AddScoped<IJwtService, JwtService>();
